@@ -1,3 +1,8 @@
+
+#Write-Host "Path : $($PSScriptRoot)"
+
+
+
 # ////////////////////////////////////////////////////////
 # FUNCTIONS
 # ////////////////////////////////////////////////////////
@@ -84,15 +89,16 @@ Else
   $start_time = Get-Date
   Remove-Item $AntFolder -Recurse -ErrorAction Ignore
   Unzip $output $AntFolder
-  Write-host "Time taken: $((Get-Date).Subtract($start_time).Seconds) second(s)" -ForegroundColor DarkGray;
-
   $ApacheFolder=(Get-ChildItem $AntFolder | Select-Object FullName)
   $ApacheFolder=($ApacheFolder -replace "@{FullName=", "")
   $ApacheFolder=($ApacheFolder -replace "}", "")
-  Write-Host "Extracted to folder : $($ApacheFolder)" -ForegroundColor Yellow;
+  Write-Host "Extracted to folder : $($ApacheFolder)" -ForegroundColor DarkGray;
+  Write-host "Removing the zip file" -ForegroundColor DarkGray;
+  Remove-Item $output -ErrorAction Ignore
+  Write-host "Time taken: $((Get-Date).Subtract($start_time).Seconds) second(s)" -ForegroundColor DarkGray;
 
   write-host "Creating the Env Variable $($strEnvVariable) "
-  cscript //nologo CreateEnvVariable.vbs $strEnvVariable $ApacheFolder
+  cscript //nologo "$($PSScriptRoot)\CreateEnvVariable.vbs" $strEnvVariable $ApacheFolder
   #If (Test-Path env:$strEnvVariable)
   #{
   #  write-host "Env Variable $($strEnvVariable) exists"
@@ -106,4 +112,73 @@ Write-Host "--------------------------------------------------------------------
 
 
 
-pause
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+write-host "**********" -ForegroundColor Blue;
+write-host "* PYTHON *" -ForegroundColor Blue;
+write-host "**********" -ForegroundColor Blue;
+
+
+$strEnvVariable="PYTHON_HOME"
+write-host "Testing the following env variable : $($strEnvVariable) " -ForegroundColor DarkGreen;
+If (Test-Path env:$strEnvVariable)
+{
+  write-host "Env Variable $($strEnvVariable) exists"
+}
+Else
+{
+  write-host "Env Variable $($strEnvVariable) does NOT exist" -ForegroundColor Red;
+
+  $url = "https://www.python.org/ftp/python/2.7.13/python-2.7.13.amd64.msi"
+  write-host "Downloading from url $($url)" -ForegroundColor Magenta;
+  Start-Sleep -m 100
+  $output = "$($env:USERPROFILE)\Python.msi"
+  $start_time = Get-Date
+  Invoke-WebRequest -Uri $url -OutFile $output
+  Write-host "Time taken: $((Get-Date).Subtract($start_time).Seconds) second(s)" -ForegroundColor Magenta;
+  Start-Process $output
+  $Result = Read-Host -Prompt 'Did you succesfully complete the Python Installation wizard?  (y/n) ';
+  switch ($Result.ToUpper())
+    {
+        "Y"
+          {
+            Write-host "Removing the downloaded file" -ForegroundColor DarkGray;
+            Remove-Item $output -ErrorAction Ignore
+
+            write-host "Creating the Env Variable $($strEnvVariable) "
+            $PythonPath = "C:\Python27"
+            cscript //nologo "$($PSScriptRoot)\CreateEnvVariable.vbs" $strEnvVariable $PythonPath
+
+            write-host "Adding Env Variable $($strEnvVariable) to PATH "
+            $env:Path += ";%PYTHON_HOME%\;%PYTHON_HOME%\Scripts\ "
+            Write-Host "Showing all Path variables : " -ForegroundColor Yellow;
+            Write-Host $env:path.split(";") -ForegroundColor Yellow;
+          }
+        "N"
+          {
+              Write-Host "Aborting the Python part of this setup " -ForegroundColor Red;
+              Write-Host "Note : not all build plans for bamboo may work correctly " -ForegroundColor Red;
+
+              Write-host "Removing the downloaded file" -ForegroundColor DarkGray;
+              Remove-Item $output -ErrorAction Ignore
+
+
+          }
+    }
+}
+Write-Host "-------------------------------------------------------------------------------------------"
