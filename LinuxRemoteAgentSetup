@@ -1,4 +1,26 @@
 #!/usr/bin/env bash
 
 sudo apt-get install git
-
+sudo apt-get install openjdk-8-jre-headless
+echo $JAVA_HOME
+if [ ${#JAVA_HOME} -le 1 ]; then 
+	echo "JAVA_HOME not found" ;
+	echo "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/jre" | sudo tee --append /etc/profile
+	echo "export PATH=$JAVA_HOME/bin:$PATH" | sudo tee --append /etc/profile
+	
+else 
+	echo "JAVA_HOME exists already"
+fi
+sudo apt-get install ant
+echo $ANT_HOME
+if [ ${#ANT_HOME} -le 1 ]; then 
+	echo "ANT_HOME not found" ;
+	echo "export ANT_HOME=/usr/share/ant" | sudo tee --append /etc/profile
+	echo "export PATH=$ANT_HOME:$PATH" | sudo tee --append /etc/profile
+	
+else 
+	echo "ANT_HOME exists already"
+fi
+url="http://84.199.251.203/agentServer/agentInstaller/atlassian-bamboo-agent-installer-6.0.2.jar"
+wget -o atlassian-bamboo-agent-installer-6.0.2.jar $url
+java -jar atlassian-bamboo-agent-installer-6.0.2.jar http://84.199.251.203/agentServer/
