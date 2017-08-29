@@ -5,7 +5,7 @@ sudo apt-get install openjdk-8-jre-headless
 echo $JAVA_HOME
 if [ ${#JAVA_HOME} -le 1 ]; then 
 	echo "JAVA_HOME not found" ;
-	echo "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/jre" | sudo tee --append /etc/profile
+	echo "export JAVA_HOME=/usr/bin/java" | sudo tee --append /etc/profile
 	echo "export PATH=$JAVA_HOME/bin:$PATH" | sudo tee --append /etc/profile
 	
 else 
