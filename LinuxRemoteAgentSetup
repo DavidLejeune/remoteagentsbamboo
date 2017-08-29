@@ -60,4 +60,5 @@ Echo "--------------------------------------------------------------"
 url="http://84.199.251.203/agentServer/agentInstaller/atlassian-bamboo-agent-installer-6.0.2.jar"
 rm -f atlassian-bamboo-agent-installer-6.0.2.jar
 wget $url
-java -jar atlassian-bamboo-agent-installer-6.0.2.jar http://84.199.251.203/agentServer/
+java -Dbamboo.Home=/home/pi/bamboo-agent-home -jar atlassian-bamboo-agent-installer-6.0.2.jar http://84.199.251.203/agentServer/
+#java -jar atlassian-bamboo-agent-installer-6.0.2.jar http://84.199.251.203/agentServer/
