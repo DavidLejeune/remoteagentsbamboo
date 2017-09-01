@@ -371,7 +371,7 @@ write-host "* BAMBOO *" -ForegroundColor Blue;
 write-host "**********" -ForegroundColor Blue;
 
 
-$strBambooHome="C:\bamboo-agent-home"
+$strBambooHome="$($env:USERPROFILE)\bamboo-agent-home"
 write-host "Testing the bamboo home directory : $($strBambooHome) " -ForegroundColor DarkGreen;
 If (Test-Path $strBambooHome)
 {
@@ -389,7 +389,7 @@ Else
 $url = "http://84.199.251.203/agentServer/agentInstaller/atlassian-bamboo-agent-installer-6.0.2.jar"
 write-host "Downloading the remote agent from from url $($url)" -ForegroundColor Magenta;
 Start-Sleep -m 100
-$output = "$($env:USERPROFILE)\atlassian-bamboo-agent-installer-6.0.2.jar"
+$output = "$($strBambooHome)\atlassian-bamboo-agent-installer-6.0.2.jar"
 $start_time = Get-Date
 Invoke-WebRequest -Uri $url -OutFile $output
 Write-host "Time taken: $((Get-Date).Subtract($start_time).Seconds) second(s)" -ForegroundColor Magenta;
