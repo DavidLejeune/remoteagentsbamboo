@@ -79,6 +79,6 @@ wget $url
 
 mkdir ~/bamboo-agent-home
 cp atlassian-bamboo-agent-installer-6.0.2.jar ~/bamboo-agent-home
-cp launch-remote ~/bamboo-agent-home
-chmod u+x ~/bamboo-agent-home/launch-remote
-~/bamboo-agent-home/launch-remote
+cp launch_remote ~/bamboo-agent-home
+chmod u+x ~/bamboo-agent-home/launch_remote
+~/bamboo-agent-home/launch_remote
