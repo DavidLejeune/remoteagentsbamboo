@@ -66,6 +66,11 @@ else
 	echo "ANT_HOME exists already"
 fi
 
+echo "--------------------------------------------------------------"
+echo " INSTALLING NPM and GULP"
+echo "--------------------------------------------------------------"
+sudo apt-get install npm
+sudo npm install -g gulp
 
 echo "--------------------------------------------------------------"
 echo " RUNNING BAMBOO JVM"
