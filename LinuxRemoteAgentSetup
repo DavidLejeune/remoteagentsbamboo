@@ -21,6 +21,31 @@ echo 'Making sure the system is up-to-date'
 sudo apt-get update
 sudo apt-get upgrade
 
+echo ""
+echo "--------------------------------------------------------------"
+echo " INSTALLING ANT"
+echo "--------------------------------------------------------------"
+sudo apt-get install ant
+echo $ANT_HOME
+if [ ${#ANT_HOME} -le 1 ]; then
+	echo "ANT_HOME not found" ;
+	read -r -p "Would you like to add the ANT_HOME enviroment variable? [y/N] " response
+	if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
+	then
+		echo "export ANT_HOME=/usr/bin/ant" | sudo tee --append /etc/profile
+		echo "export PATH=$ANT_HOME:$PATH" | sudo tee --append /etc/profile
+	else
+			echo "Please do this manually !!! "
+	fi
+
+else
+	echo "ANT_HOME exists already"
+fi
+
+sleep 3
+
+
+
 echo "--------------------------------------------------------------"
 echo " INSTALLING GIT"
 echo "--------------------------------------------------------------"
@@ -90,10 +115,10 @@ echo ">>netw 3 Host only "
 read -r -p "What is the fixed ip address to use for this VM ? " ip
 if [[ $ip =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
 
-CN=`echo $ip | cut -d . -f 4`
-sudo echo $'allow-hotplug enp0s8\n' | sudo tee -a /etc/network/interfaces
-# sudo echo $'iface enp0s8 inet static\n' | sudo tee -a /etc/network/interfaces
-sudo echo $'iface enp0s8 inet dhcp\n' | sudo tee -a /etc/network/interfaces
+# CN=`echo $ip | cut -d . -f 4`
+# sudo echo $'allow-hotplug enp0s8\n' | sudo tee -a /etc/network/interfaces
+# # sudo echo $'iface enp0s8 inet static\n' | sudo tee -a /etc/network/interfaces
+# sudo echo $'iface enp0s8 inet dhcp\n' | sudo tee -a /etc/network/interfaces
 # sudo echo "address 192.168.56."$CN$'\n' | sudo tee -a /etc/network/interfaces
 # sudo echo $'netmask 255.255.254.0\n' | sudo tee -a /etc/network/interfaces
 #
