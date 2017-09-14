@@ -90,4 +90,10 @@ mkdir ~/bamboo-agent-home
 cp atlassian-bamboo-agent-installer-6.0.2.jar ~/bamboo-agent-home
 cp launch_remote ~/bamboo-agent-home
 chmod u+x ~/bamboo-agent-home/launch_remote
-~/bamboo-agent-home/launch_remote
+read -r -p "Would you like to run the bamboo remote agent VM now? [y/N] " response
+	if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
+	then
+			~/bamboo-agent-home/launch_remote
+	else
+			echo "Run the launch-remote script from bamboo-agent-home manually then you filthy peasant "
+	fi
