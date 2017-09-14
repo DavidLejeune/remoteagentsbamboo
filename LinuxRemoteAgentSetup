@@ -68,6 +68,28 @@ wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.4/install.sh | 
 sudo apt-get install -y nodejs
 
 
+
+echo "--------------------------------------------------------------"
+echo " GIVING THIS SERVER A FIXED IP"
+echo "--------------------------------------------------------------"
+echo "Ensure that you have 3 interfaces"
+echo ">>netw 1 NAT"
+echo ">>netw 2 Bridged"
+echo ">>netw 3 Host only "
+
+read -r -p "What is the fixed ip address to use for this VM ? " ip
+if [[ $ip =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+sudo echo "auto enp0s8" | sudo tee -a /etc/network/interfaces
+sudo echo "iface enp0s8 inet dhcp" | sudo tee -a /etc/network/interfaces
+sudo echo "allow-hotplug enp0s9" | sudo tee -a /etc/network/interfaces
+sudo echo "iface enp0s9 inet static" | sudo tee -a /etc/network/interfaces
+sudo echo "address "$ip | sudo tee -a /etc/network/interfaces
+sudo echo "netmask 255.255.254.0" | sudo tee -a /etc/network/interfaces
+else
+  echo "That isn't a valid ip numbnuts."
+fi
+
+
 echo "--------------------------------------------------------------"
 echo " RUNNING BAMBOO JVM"
 echo "--------------------------------------------------------------"
