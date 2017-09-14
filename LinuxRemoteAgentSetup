@@ -57,6 +57,7 @@ echo " INSTALLING FUN STUFF"
 echo "--------------------------------------------------------------"
 sudo apt-get install toilet
 sudo apt-get install figlet
+sudo apt-get install fortune
 
 echo "--------------------------------------------------------------"
 echo " INSTALLING NPM , GULP and NODE"
@@ -79,12 +80,17 @@ echo ">>netw 3 Host only "
 
 read -r -p "What is the fixed ip address to use for this VM ? " ip
 if [[ $ip =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-sudo echo "auto enp0s8" | sudo tee -a /etc/network/interfaces
-sudo echo "iface enp0s8 inet dhcp" | sudo tee -a /etc/network/interfaces
-sudo echo "allow-hotplug enp0s9" | sudo tee -a /etc/network/interfaces
-sudo echo "iface enp0s9 inet static" | sudo tee -a /etc/network/interfaces
-sudo echo "address "$ip | sudo tee -a /etc/network/interfaces
-sudo echo "netmask 255.255.254.0" | sudo tee -a /etc/network/interfaces
+
+CN=`echo $ip | cut -d . -f 4`
+sudo echo $'allow-hotplug enp0s8\n' | sudo tee -a /etc/network/interfaces
+sudo echo $'iface enp0s8 inet static\n' | sudo tee -a /etc/network/interfaces
+sudo echo "address 192.168.56."$CN$'\n' | sudo tee -a /etc/network/interfaces
+sudo echo $'netmask 255.255.254.0\n' | sudo tee -a /etc/network/interfaces
+
+sudo echo $'allow-hotplug enp0s9\n' | sudo tee -a /etc/network/interfaces
+sudo echo $'iface enp0s9 inet static\n' | sudo tee -a /etc/network/interfaces
+sudo echo $'address \n'$ip | sudo tee -a /etc/network/interfaces
+sudo echo $'netmask 255.255.254.0\n' | sudo tee -a /etc/network/interfaces
 else
   echo "That isn't a valid ip numbnuts."
 fi
