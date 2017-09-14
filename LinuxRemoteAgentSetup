@@ -23,6 +23,12 @@ echo " INSTALLING GIT"
 echo "--------------------------------------------------------------"
 sudo apt-get install git
 
+echo "--------------------------------------------------------------"
+echo " INSTALLING OPENSSH-SERVER"
+echo "--------------------------------------------------------------"
+sudo apt-get install openssh-server
+
+
 
 echo "--------------------------------------------------------------"
 echo " INSTALLING JDK"
@@ -86,11 +92,11 @@ sudo echo $'allow-hotplug enp0s8\n' | sudo tee -a /etc/network/interfaces
 sudo echo $'iface enp0s8 inet static\n' | sudo tee -a /etc/network/interfaces
 sudo echo "address 192.168.56."$CN$'\n' | sudo tee -a /etc/network/interfaces
 sudo echo $'netmask 255.255.254.0\n' | sudo tee -a /etc/network/interfaces
-
-sudo echo $'allow-hotplug enp0s9\n' | sudo tee -a /etc/network/interfaces
-sudo echo $'iface enp0s9 inet static\n' | sudo tee -a /etc/network/interfaces
-sudo echo "address "$ip$'\n' | sudo tee -a /etc/network/interfaces
-sudo echo $'netmask 255.255.254.0\n' | sudo tee -a /etc/network/interfaces
+# 
+# sudo echo $'allow-hotplug enp0s9\n' | sudo tee -a /etc/network/interfaces
+# sudo echo $'iface enp0s9 inet static\n' | sudo tee -a /etc/network/interfaces
+# sudo echo "address "$ip$'\n' | sudo tee -a /etc/network/interfaces
+# sudo echo $'netmask 255.255.254.0\n' | sudo tee -a /etc/network/interfaces
 else
   echo "That isn't a valid ip numbnuts."
 fi
