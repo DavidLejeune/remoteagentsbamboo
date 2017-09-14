@@ -17,6 +17,9 @@ echo ' #     REMOTE AGENT SETUP LINUX    #'
 echo ' ###################################'
 echo ''
 
+echo 'Making sure the system is up-to-date'
+sudo apt-get update
+sudo apt-get upgrade
 
 echo "--------------------------------------------------------------"
 echo " INSTALLING GIT"
